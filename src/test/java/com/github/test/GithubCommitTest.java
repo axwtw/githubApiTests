@@ -21,6 +21,8 @@ import static org.hamcrest.Matchers.equalTo;
  */
 public class GithubCommitTest {
 
+    private final String AUTH_TOKEN = "token 7d0381544746abe5d4a1182b88fc5b160315c32b";
+
     @Test(groups = "11")
     public void commitTest() {
         RequestSpecification requestSpecification = new RestAssuredConfiguration().getRequestSpecification();
@@ -96,7 +98,7 @@ public class GithubCommitTest {
         given()
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
-                .header("Authorization", "token 39421d6e2af7d5d5dcbf524eb2070c18a5abb6e2")
+                .header("Authorization", AUTH_TOKEN)
                 .body(jsonAsMap)
         .when()
                 .post(EndPoints.GET_USER_COMMIT_COMMENTS_URL)
@@ -131,7 +133,7 @@ public class GithubCommitTest {
         given()
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON)
-                .header("Authorization", "token 39421d6e2af7d5d5dcbf524eb2070c18a5abb6e2")
+                .header("Authorization", AUTH_TOKEN)
                 .body(jsonAsMap)
         .when()
                 .post(EndPoints.GET_USER_COMMIT_COMMENTS_URL)
@@ -145,12 +147,12 @@ public class GithubCommitTest {
 
         //remove comment by extracted id before
         given()
-                .header("Authorization", "token 39421d6e2af7d5d5dcbf524eb2070c18a5abb6e2")
+                .header("Authorization", AUTH_TOKEN)
                 .pathParam("user", "axwtw")
                 .pathParam("repo", "fitbit-tests")
                 .pathParam("id", id)
         .when()
-                .delete(EndPoints.GITHUB_DELETE_COMMENT_URL)
+                .delete(EndPoints.GITHUB_COMMENT_ID_URL)
         .then()
                 .statusCode(204)
                 .log()
@@ -171,7 +173,7 @@ public class GithubCommitTest {
                 given()
                         .accept(ContentType.JSON)
                         .contentType(ContentType.JSON)
-                        .header("Authorization", "token 39421d6e2af7d5d5dcbf524eb2070c18a5abb6e2")
+                        .header("Authorization", AUTH_TOKEN)
                         .body(jsonAsMap)
                 .when()
                         .post(EndPoints.GET_USER_COMMIT_COMMENTS_URL)
@@ -185,13 +187,13 @@ public class GithubCommitTest {
 
         //remove comment by extracted id before
         given()
-                .header("Authorization", "token 39421d6e2af7d5d5dcbf524eb2070c18a5abb6e2")
+                .header("Authorization", AUTH_TOKEN)
                 .pathParam("user", "axwtw")
                 .pathParam("repo", "fitbit-tests")
                 .pathParam("id", id)
                 .body(String.format("{\"body\": \"%s\"}", "Updated comment"))
                 .when()
-                .patch(EndPoints.GITHUB_DELETE_COMMENT_URL)
+                .patch(EndPoints.GITHUB_COMMENT_ID_URL)
                 .then()
                 .statusCode(200)
                 .log()
