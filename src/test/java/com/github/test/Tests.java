@@ -57,5 +57,6 @@ public class Tests {
                 .all();
     }
 
+    public void automatedOAuthAuthorizationForNonWebApp2() { }
 
 }
