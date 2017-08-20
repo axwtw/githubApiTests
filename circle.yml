@@ -18,3 +18,7 @@
              path: ~/junit
        - store_artifacts:
              path: ~/junit
+  test:
+     post:
+       - mkdir -p $CIRCLE_TEST_REPORTS/junit/
+       - find . -type f -regex ".*/target/surefire-reports/junitreports.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
