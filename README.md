@@ -29,8 +29,7 @@ The following steps should get you set up for running API tests locally on your 
 1. Install [Curl](https://curl.haxx.se/) on your local machine
 2. Run the tests via curl request:
 curl -X POST https://circleci.com/api/v1.1/project/github/axwtw/githubApiTests/tree/master?circle-token=2326ebfac62387fe95563f124b6d7ac0c9a797f8
-3. To get the test results use following link with updated build number which you can get from json response of previous request that triggered build.
-https://circleci.com/api/v1.1/project/github/axwtw/githubApiTests/**build_number**/tests?circle-token=2326ebfac62387fe95563f124b6d7ac0c9a797f8
+3. To get test results use the following link https://circleci.com/gh/axwtw/githubApiTests - select latest build and navigate to tab 'test summary'
 
 
 ## Built with
