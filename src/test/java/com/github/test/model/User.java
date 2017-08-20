@@ -9,66 +9,96 @@ public class User {
 
     @JsonProperty("login")
     private String login;
+
     @JsonProperty("id")
     private int id;
+
     @JsonProperty("avatar_url")
     private String avatarUrl;
+
     @JsonProperty("gravatar_id")
     private String gravatarId;
+
     @JsonProperty("url")
     private String url;
+
     @JsonProperty("html_url")
     private String htmlUrl;
+
     @JsonProperty("followers_url")
     private String followersUrl;
+
     @JsonProperty("following_url")
     private String followingUrl;
+
     @JsonProperty("gists_url")
     private String gistsUrl;
+
     @JsonProperty("starred_url")
     private String starredUrl;
+
     @JsonProperty("subscriptions_url")
     private String subscriptionsUrl;
+
     @JsonProperty("organizations_url")
     private String organizationsUrl;
+
     @JsonProperty("repos_url")
     private String reposUrl;
+
     @JsonProperty("events_url")
     private String eventsUrl;
+
     @JsonProperty("received_events_url")
     private String receivedEventsUrl;
+
     @JsonProperty("User")
     private String User;
+
     @JsonProperty("site_admin")
     private boolean siteAdmin;
+
     @JsonProperty("name")
     private String name;
+
     @JsonProperty("company")
     private String company;
+
     @JsonProperty("blog")
     private String blog;
+
     @JsonProperty("location")
     private String location;
+
     @JsonProperty("email")
     private String email;
+
     @JsonProperty("hireable")
     private String hireable;
+
     @JsonProperty("bio")
     private String bio;
+
     @JsonProperty("public_repos")
     private int publicRepos;
+
     @JsonProperty("public_gists")
     private int publicGists;
+
     @JsonProperty("followers")
     private int followers;
+
+    @JsonProperty("following")
     private int following;
+
     @JsonProperty("created_at")
     private String createdAt;
+
     @JsonProperty("updated_at")
     private String updatedAt;
+
     @JsonProperty("type")
     private String type;
-
 
     public String getAvatarUrl() {
         return avatarUrl;
@@ -101,8 +131,6 @@ public class User {
     public void setId(int id) {
         this.id = id;
     }
-
-
 
     public String getGravatarId() {
         return gravatarId;
@@ -304,9 +332,7 @@ public class User {
         this.following = following;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
-    }
+    public String getCreatedAt() { return createdAt; }
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;

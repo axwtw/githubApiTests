@@ -1,14 +1,13 @@
 package com.github.test;
 
 import com.github.framework.RestAssuredConfiguration;
-import com.github.test.bin.Commit;
-import com.github.test.bin2.SingleCommit;
 import com.github.test.common.EndPoints;
+import com.github.test.common.PathParams;
+import com.github.test.model.User;
 import io.restassured.http.ContentType;
-import io.restassured.mapper.ObjectMapperType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import org.apache.http.HttpStatus;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.*;
@@ -21,32 +20,37 @@ import static org.hamcrest.Matchers.equalTo;
  */
 public class GithubCommitTest {
 
-    private final String AUTH_TOKEN = "token 7d0381544746abe5d4a1182b88fc5b160315c32b";
+    private final String AUTH_TOKEN = System.getenv("github.token");
 
-    @Test(groups = "11")
-    public void commitTest() {
+    @Test(groups = "demo")
+    public void verifyUserFollowersAndFollowing() {
         RequestSpecification requestSpecification = new RestAssuredConfiguration().getRequestSpecification();
-        requestSpecification.accept(ContentType.JSON).pathParam("user", "axwtw").pathParam("repo", "fitbit-tests").log().all();
-        Response response = new RestAssuredConfiguration().getResponse(requestSpecification, EndPoints.GET_USER_COMMITS, HttpStatus.SC_OK);
-        List<Commit> commits = Arrays.asList(response.as(Commit[].class, ObjectMapperType.GSON));
+        requestSpecification.accept(ContentType.JSON).pathParam("user", "maywthr").log().all();
+        given()
+                .spec(requestSpecification)
+                .get(EndPoints.GET_USER)
+                .then().statusCode(200)
+                .log()
+                .all();
+
+        Response response = given()
+                .spec(requestSpecification)
+                .get(EndPoints.GET_USER);
+
+        User user = response.as(User.class);
+        Assert.assertEquals(user.getFollowers(), 0);
+        Assert.assertEquals(user.getFollowing(), 2);
     }
 
-    @Test(groups = "23")
-    public void commitTest2() {
-        RequestSpecification requestSpecification = new RestAssuredConfiguration().getRequestSpecification();
-        requestSpecification.accept(ContentType.JSON).pathParam("user", "axwtw").pathParam("repo", "fitbit-tests").pathParam("sha", "fd819ca846dae2d2898fc386029dbbc5c4cf706c").log().all();
-        Response response = new RestAssuredConfiguration().getResponse(requestSpecification, EndPoints.GET_USER_COMMIT_BY_SHA, HttpStatus.SC_OK);
-        List<SingleCommit> singleCommits = Arrays.asList(response.as(SingleCommit[].class, ObjectMapperType.GSON));
 
-    }
     @Test(groups = "demo")
     public void singleCommitAuthorValidation() {
         given()
-                .pathParam("user", "axwtw")
-                .pathParam("repo", "fitbit-tests")
-                .pathParam("sha", "fd819ca846dae2d2898fc386029dbbc5c4cf706c")
+                .pathParam("user", PathParams.USER)
+                .pathParam("repo", PathParams.REPO)
+                .pathParam("sha", PathParams.SHA)
         .when()
-                .get("https://api.github.com/repos/{user}/{repo}/commits/{sha}")
+                .get(EndPoints.GET_USER_COMMIT_BY_SHA)
         .then()
                 .statusCode(200)
                 .body("commit.author.name", equalTo("Sergey Degtyaryov"))
@@ -55,13 +59,13 @@ public class GithubCommitTest {
     }
 
     @Test(groups = "demo")
-    public void singleCommitComitterValidation() {
+    public void singleCommitCommitterValidation() {
         given()
-                .pathParam("user", "axwtw")
-                .pathParam("repo", "fitbit-tests")
-                .pathParam("sha", "fd819ca846dae2d2898fc386029dbbc5c4cf706c")
+                .pathParam("user", PathParams.USER)
+                .pathParam("repo", PathParams.REPO)
+                .pathParam("sha", PathParams.SHA)
         .when()
-                .get("https://api.github.com/repos/{user}/{repo}/commits/{sha}")
+                .get(EndPoints.GET_USER_COMMIT_BY_SHA)
         .then()
                 .statusCode(200)
                 .body("commit.committer.name", equalTo("Sergey Degtyaryov"))
@@ -84,9 +88,9 @@ public class GithubCommitTest {
         //check comments count before new comment added
         int commentCount =
                 given()
-                        .pathParam("user", "axwtw")
-                        .pathParam("repo", "fitbit-tests")
-                        .pathParam("sha", "fd819ca846dae2d2898fc386029dbbc5c4cf706c")
+                        .pathParam("user", PathParams.USER)
+                        .pathParam("repo", PathParams.REPO)
+                        .pathParam("sha", PathParams.SHA)
                 .when()
                         .get(EndPoints.GET_USER_COMMIT_BY_SHA)
                 .then()
@@ -109,9 +113,9 @@ public class GithubCommitTest {
 
         //verify that count of comments increased by 1
         given()
-                .pathParam("user", "axwtw")
-                .pathParam("repo", "fitbit-tests")
-                .pathParam("sha", "fd819ca846dae2d2898fc386029dbbc5c4cf706c")
+                .pathParam("user", PathParams.USER)
+                .pathParam("repo", PathParams.REPO)
+                .pathParam("sha", PathParams.SHA)
         .when()
                 .get(EndPoints.GET_USER_COMMIT_BY_SHA)
         .then()
@@ -148,8 +152,8 @@ public class GithubCommitTest {
         //remove comment by extracted id before
         given()
                 .header("Authorization", AUTH_TOKEN)
-                .pathParam("user", "axwtw")
-                .pathParam("repo", "fitbit-tests")
+                .pathParam("user", PathParams.USER)
+                .pathParam("repo", PathParams.REPO)
                 .pathParam("id", id)
         .when()
                 .delete(EndPoints.GITHUB_COMMENT_ID_URL)
@@ -161,6 +165,7 @@ public class GithubCommitTest {
 
     @Test(groups = "demo")
     public void addCommitCommentAndUpdate() {
+
         //json dataprovider
         Map<String, Object> jsonAsMap = new HashMap<String, Object>();
         jsonAsMap.put("body", "test comment " + System.currentTimeMillis());
