@@ -142,7 +142,6 @@ public class GithubCommitTest {
         .when()
                 .post(EndPoints.GET_USER_COMMIT_COMMENTS_URL)
         .then()
-                .statusCode(201)
                 .log()
                 .all()
         .and()

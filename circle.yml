@@ -1,0 +1,8 @@
+  java:
+     version: oraclejdk8
+ 
+  deployment:
+     main:
+       branch: master
+       commands:
+	- mvn clean test
