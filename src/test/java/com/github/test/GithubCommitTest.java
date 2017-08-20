@@ -189,7 +189,7 @@ public class GithubCommitTest {
                         .extract()
                         .path("id");
 
-        //remove comment by extracted id before
+        //update comment by extracted id before
         given()
                 .header("Authorization", AUTH_TOKEN)
                 .pathParam("user", "axwtw")
