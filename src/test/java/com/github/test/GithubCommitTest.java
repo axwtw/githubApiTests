@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.equalTo;
  */
 public class GithubCommitTest {
 
-    private final String AUTH_TOKEN = System.getenv("github.token");
+    private final String AUTH_TOKEN = System.getenv("GITHUB_TOKEN");
 
     @Test(groups = "demo")
     public void verifyUserFollowersAndFollowing() {

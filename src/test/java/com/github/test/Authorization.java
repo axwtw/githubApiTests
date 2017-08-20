@@ -16,7 +16,7 @@ public class Authorization {
         given()
                 .auth()
                 .preemptive()
-                .basic("maywthr", System.getenv("git.pass"))
+                .basic("maywthr", System.getenv("GITHUB_PASS"))
                 .param("note", "admin script")
                 .param("scopes", "[ ]")
                 .param("client_id", clientId)
